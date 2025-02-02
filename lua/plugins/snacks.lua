@@ -44,34 +44,18 @@ local function custom_ascii_art()
 end
 
 local function custom_header()
-	-- get random ascii art
 	local arts = custom_ascii_art()
-
-	-- get the keys from the dictionary (table)
 	local keys = {}
 	for key, _ in pairs(arts) do
 		table.insert(keys, key)
 	end
-
-	-- select a random key from the dictionary
 	local random_key = keys[math.random(#keys)]
 	local art = arts[random_key] -- select the ascii art associated with that key
-
-	-- initialize the table to hold the output (including ascii art and timestamp)
 	local tbl = art
-
-	-- add the current date and time to the table
-	-- table.insert(tbl, os.date("%y-%m-%d %h:%m:%s ") .. "sunday")
-
-	-- initialize the final output string
 	local out = ""
-
-	-- loop through the table and append each element to the final output
 	for i = 1, #tbl do
 		out = out .. tbl[i] .. "\n"
 	end
-
-	-- return the final string
 	return out
 end
 
@@ -150,14 +134,14 @@ return {
 		{
 			"<leader>gg",
 			function()
-				snacks.lazygit()
+				Snacks.lazygit()
 			end,
 			desc = "lazygit",
 		},
 		{
 			"<leader>gb",
 			function()
-				snacks.git.blame_line()
+				Snacks.git.blame_line()
 			end,
 			desc = "git blame line",
 		},
