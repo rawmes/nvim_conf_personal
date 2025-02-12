@@ -67,57 +67,6 @@ return {
 	---@type snacks.config
 	opts = {
 		bigfile = { enabled = true },
-		dashboard = {
-			enabled = true,
-			preset = {
-				header = custom_header(),
-				keys = {
-					{
-						icon = " ",
-						key = "f",
-						desc = "find file",
-						action = "<leader><leader>",
-					},
-					{
-						icon = " ",
-						key = "n",
-						desc = "new file",
-						action = ":ene | startinsert",
-					},
-					{
-						icon = " ",
-						key = "g",
-						desc = "find text",
-						action = "<leader>/",
-					},
-					{
-						icon = " ",
-						key = "c",
-						desc = "config",
-						action = ":lua snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})",
-					},
-					{
-						icon = " ",
-						key = "s",
-						desc = "restore session",
-						section = "session",
-					},
-					{ icon = " ", key = "q", desc = "quit", action = ":qa" },
-				},
-			},
-			-- sections = {
-			-- 	{ section = "header" },
-			-- 	{ section = "keys", gap = 1, padding = 1 },
-			-- 	{ section = "startup" },
-			-- 	{
-			-- 		pane = 2,
-			-- 		section = "terminal",
-			-- 		cmd = "echo",
-			-- 		height = 5,
-			-- 		padding = 1,
-			-- 	},
-			-- },
-		},
 		debug = { enabled = false },
 		notifier = { enabled = true },
 		quickfile = { enabled = true },
@@ -129,6 +78,138 @@ return {
 		},
 		words = { enabled = true },
 		win = { enable = true },
+		---@class snacks.dashboard.Config
+		---@field enabled? boolean
+		---@field sections snacks.dashboard.Section
+		---@field formats table<string, snacks.dashboard.Text|fun(item:snacks.dashboard.Item, ctx:snacks.dashboard.Format.ctx):snacks.dashboard.Text>
+		dashboard = {
+			width = 60,
+			row = nil, -- dashboard position. nil for center
+			col = nil, -- dashboard position. nil for center
+			pane_gap = 4, -- empty columns between vertical panes
+			autokeys = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", -- autokey sequence
+			-- These settings are used by some built-in sections
+			preset = {
+				-- Defaults to a picker that supports `fzf-lua`, `telescope.nvim` and `mini.pick`
+				---@type fun(cmd:string, opts:table)|nil
+				pick = nil,
+				-- Used by the `keys` section to show keymaps.
+				-- Set your custom keymaps here.
+				-- When using a function, the `items` argument are the default keymaps.
+				---@type snacks.dashboard.Item[]
+				keys = {
+					{
+						icon = " ",
+						key = "f",
+						desc = "Find File",
+						action = ":lua Snacks.dashboard.pick('files')",
+					},
+					{
+						icon = " ",
+						key = "n",
+						desc = "New File",
+						action = ":ene | startinsert",
+					},
+					{
+						icon = " ",
+						key = "g",
+						desc = "Find Text",
+						action = ":lua Snacks.dashboard.pick('live_grep')",
+					},
+					{
+						icon = " ",
+						key = "r",
+						desc = "Recent Files",
+						action = ":lua Snacks.dashboard.pick('oldfiles')",
+					},
+					{
+						icon = " ",
+						key = "c",
+						desc = "Config",
+						action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})",
+					},
+					{
+						icon = " ",
+						key = "s",
+						desc = "Restore Session",
+						section = "session",
+					},
+					{
+						icon = "󰒲 ",
+						key = "L",
+						desc = "Lazy",
+						action = ":Lazy",
+						enabled = package.loaded.lazy ~= nil,
+					},
+					{ icon = " ", key = "q", desc = "Quit", action = ":qa" },
+				},
+				-- Used by the `header` section
+				header = custom_header(),
+			},
+			-- item field formatters
+			formats = {
+				icon = function(item)
+					if
+						item.file and item.icon == "file"
+						or item.icon == "directory"
+					then
+						return M.icon(item.file, item.icon)
+					end
+					return { item.icon, width = 2, hl = "icon" }
+				end,
+				footer = { "%s", align = "center" },
+				header = { "%s", align = "center" },
+				file = function(item, ctx)
+					local fname = vim.fn.fnamemodify(item.file, ":~")
+					fname = ctx.width
+							and #fname > ctx.width
+							and vim.fn.pathshorten(fname)
+						or fname
+					if #fname > ctx.width then
+						local dir = vim.fn.fnamemodify(fname, ":h")
+						local file = vim.fn.fnamemodify(fname, ":t")
+						if dir and file then
+							file = file:sub(-(ctx.width - #dir - 2))
+							fname = dir .. "/…" .. file
+						end
+					end
+					local dir, file = fname:match("^(.*)/(.+)$")
+					return dir
+							and {
+								{ dir .. "/", hl = "dir" },
+								{ file, hl = "file" },
+							}
+						or { { fname, hl = "file" } }
+				end,
+			},
+
+			sections = {
+				{
+					pane = 1,
+					{ section = "header" },
+					{
+						section = "keys",
+						gap = 1,
+						padding = 0,
+						width = 99,
+						height = 25,
+					},
+					{ section = "startup" },
+				},
+				{
+					pane = 2, -- Moves the terminal to a different pane (right side)
+					{
+						section = "terminal",
+						-- cmd = "pokeshell -a random",
+						cmd = "echo '\n\n\n\n\n\n\n' && pokemon-colorscripts -r ; sleep .1",
+						-- cmd = "kitten icat https://thispersondoesnotexist.com/",
+						random = 99,
+						height = 25,
+						width = 35,
+					},
+				},
+			},
+		},
 	},
 	keys = {
 		{
