@@ -64,7 +64,6 @@ return {
 	"folke/snacks.nvim",
 	priority = 1000,
 	lazy = false,
-	---@type snacks.config
 	opts = {
 		bigfile = { enabled = true },
 		debug = { enabled = false },
@@ -77,6 +76,16 @@ return {
 			},
 		},
 		words = { enabled = true },
+		terminal = {
+			enabled = true,
+			win = {
+				position = "float",
+				style = "terminal",
+				wo = {
+					winblend = 10,
+				},
+			},
+		},
 		win = { enable = true },
 		---@class snacks.dashboard.Config
 		---@field enabled? boolean
@@ -200,7 +209,6 @@ return {
 					pane = 2, -- Moves the terminal to a different pane (right side)
 					{
 						section = "terminal",
-						-- cmd = "pokeshell -a random",
 						cmd = "echo '\n\n\n\n\n\n\n' && pokemon-colorscripts -r ; sleep .1",
 						-- cmd = "kitten icat https://thispersondoesnotexist.com/",
 						random = 99,
@@ -227,17 +235,18 @@ return {
 			desc = "git blame line",
 		},
 		{
-			"]]",
-			function()
-				Snacks.words.jump(vim.v.count1)
-			end,
-			desc = "Next Reference",
-			mode = { "n", "t" },
-		},
-		{
 			"[[",
 			function()
 				Snacks.words.jump(-vim.v.count1)
+			end,
+			desc = "Prev Reference",
+			mode = { "n", "t" },
+		},
+		{
+			"<leader>ft",
+			function()
+				Snacks.terminal.colorize()
+				Snacks.terminal.toggle()
 			end,
 			desc = "Prev Reference",
 			mode = { "n", "t" },
