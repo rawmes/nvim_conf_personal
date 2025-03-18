@@ -114,6 +114,9 @@ return {
 				":<C-U>Gitsigns select_hunk<CR>",
 				"GitSigns Select Hunk"
 			)
+			map("n", "<leader>ghns", function()
+				gs.next_staged_hunk()
+			end, "Next Staged Hunk")
 		end,
 	},
 }

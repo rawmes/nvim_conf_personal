@@ -13,6 +13,6 @@ o.numberwidth = 1
 o.expandtab = false
 o.cursorcolumn = true
 o.cursorline = true
-
+o.listchars = { tab = ">-" }
 -- In case you don't want to use `:LazyExtras`,
 -- then you need to set the option below.
