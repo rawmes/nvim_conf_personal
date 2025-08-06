@@ -6,7 +6,7 @@ o.tabstop = 4
 o.softtabstop = 4
 o.shiftwidth = 4
 o.signcolumn = "yes"
-o.scrolloff = 8
+o.scrolloff = 15
 o.colorcolumn = "80"
 o.number = true
 o.numberwidth = 1
@@ -16,3 +16,12 @@ o.cursorline = true
 o.listchars = { tab = ">-" }
 -- In case you don't want to use `:LazyExtras`,
 -- then you need to set the option below.
+vim.diagnostic.config({
+	virtual_lines = function(namespace, bufnr)
+		return {
+			only_current_line = false,
+			severity = vim.diagnostic.severity.ERROR,
+		}
+	end,
+	signs = false,
+})
