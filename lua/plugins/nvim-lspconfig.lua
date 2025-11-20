@@ -4,8 +4,8 @@ return {
 	dependencies = {
 		{ "saghen/blink.cmp" },
 		-- { "hrsh7th/cmp-nvim-lsp" },
-		{ "williamboman/mason.nvim" },
-		{ "williamboman/mason-lspconfig.nvim" },
+		{ "mason-org/mason.nvim" },
+		{ "mason-org/mason-lspconfig.nvim" },
 	},
 	config = function()
 		local capabilities = require("blink.cmp").get_lsp_capabilities()

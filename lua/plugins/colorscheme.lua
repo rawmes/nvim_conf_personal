@@ -1,6 +1,6 @@
 return {
 	{
-		enabled = false,
+		enabled = true,
 		-- there is no cat here
 		"catppuccin/nvim",
 		lazy = false,

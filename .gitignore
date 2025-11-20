@@ -1,8 +1,23 @@
-tt.*
-.tests
-doc/tags
-debug
-.repro
-foo.*
+# General
+.DS_Store
+*.swp
+*.swo
+*.json
+*~
+
+# Logs
 *.log
-data
+
+# Session
+Session.vim
+/sessions/
+
+# Backups and undo history
+/undodir/
+
+# Spell files
+/spell/
+
+# Other generated files
+.neoconf.json
+typrstats

@@ -16,6 +16,7 @@ function map_key(mode, key_combination, command, desc, remap)
 	)
 end
 
+-- Basic keymaps
 vim.keymap.set("n", "<leader>h", "<cmd>Telescope help_tags<cr>")
 vim.keymap.set({ "i", "v" }, "qv", function()
 	vim.api.nvim_feedkeys(
@@ -42,3 +43,60 @@ map_key("n", "<localleader>t", function()
 	local current_time = vim.fn.system('date "+Time Now: %H:%M"')
 	vim.notify(current_time)
 end, "Current Date Time")
+
+-- ===============================
+-- CUSTOM REGISTER COPY/PASTE PREFIX KEYS
+-- ===============================
+
+-- Disable default Ctrl-c and Ctrl-v behavior
+vim.keymap.set({ "n", "v", "i" }, "<C-c>", "<Nop>", { noremap = true })
+vim.keymap.set({ "n", "v", "i" }, "<C-v>", "<Nop>", { noremap = true })
+
+local registers = {
+	"a",
+	"b",
+	"c",
+	"d",
+	"e",
+	"f",
+	"g",
+	"h",
+	"i",
+	"j",
+	"k",
+	"l",
+	"m",
+	"n",
+	"o",
+	"p",
+	"q",
+	"r",
+	"s",
+	"t",
+	"u",
+	"v",
+	"w",
+	"x",
+	"y",
+	"z",
+}
+
+-- Copy: <C-c> + register
+for _, reg in ipairs(registers) do
+	-- Normal mode → copy line
+	vim.keymap.set("n", "<C-c>" .. reg, function()
+		vim.cmd('normal! "' .. reg .. "yy")
+	end, { noremap = true, desc = "Yank line into register " .. reg })
+
+	-- Visual mode → copy selection
+	vim.keymap.set("v", "<C-c>" .. reg, function()
+		vim.cmd('normal! "' .. reg .. "y")
+	end, { noremap = true, desc = "Yank selection into register " .. reg })
+end
+
+-- Paste: <C-v> + register (normal mode only)
+for _, reg in ipairs(registers) do
+	vim.keymap.set("n", "<C-v>" .. reg, function()
+		vim.cmd('normal! "' .. reg .. "p")
+	end, { noremap = true, desc = "Paste from register " .. reg })
+end
