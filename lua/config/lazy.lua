@@ -23,31 +23,6 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	spec = {
-		-- add LazyVim and import its plugins
-		{ "LazyVim/LazyVim", import = "lazyvim.plugins" },
-		-- {
-		--   "scottmckendry/cyberdream.nvim",
-		--   priority = 1000,
-		--   lazy = false,
-		--   config = function()
-		--     vim.cmd("colorscheme cyberdream")
-		--   end,
-		-- }, -- import/override with your plugins
-		{
-			"catppuccin/nvim",
-			lazy = false,
-			name = "catppuccin",
-			-- you can do it like this with a config function
-			config = function()
-				require("catppuccin").setup({
-					-- configurations
-				})
-			end,
-			-- or just use opts table
-			opts = {
-				-- configurations
-			},
-		},
 		{ import = "plugins" },
 	},
 	defaults = {

@@ -2,12 +2,38 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
+local function toggle_boolean()
+	local replacements = {
+		["true"] = "false",
+		["false"] = "true",
+		["True"] = "False",
+		["False"] = "True",
+		["1"] = "0",
+		["0"] = "1",
+	}
+
+	local replacement = replacements[vim.fn.expand("<cword>")]
+	if replacement then
+		vim.cmd("normal! ciw" .. replacement)
+	end
+end
+
+local function create_func()
+	vim.notify("created a func template")
+	vim.api.nvim_feedkeys("func () -> void:\n\tpass", "i", false)
+	vim.api.nvim_feedkeys(
+		vim.api.nvim_replace_termcodes("<Up>f(i", true, false, true),
+		"n",
+		false
+	)
+end
+
 ---@param mode string | table
 ---@param key_combination string
 ---@param command string | function
 ---@param desc string
 ---@param remap boolean | nil
-function map_key(mode, key_combination, command, desc, remap)
+local function map_key(mode, key_combination, command, desc, remap)
 	vim.keymap.set(
 		mode,
 		key_combination,
@@ -15,6 +41,33 @@ function map_key(mode, key_combination, command, desc, remap)
 		{ remap = remap or false, desc = desc }
 	)
 end
+
+local function display_current_track()
+	local os_name = vim.loop.os_uname().sysname
+
+	if os_name == "Darwin" then
+		local info = vim.fn.system(
+			"osascript -e 'tell application \"Spotify\" to if player state is playing then get {name, artist, album} of current track'"
+		)
+		if info == "" then
+			vim.notify("No Tracks Playing...")
+			return
+		end
+
+		local split = vim.split(info, ",")
+		vim.notify(
+			"Track Name : "
+				.. split[1]
+				.. "\nArtist: "
+				.. split[2]
+				.. "\nAlbum: "
+				.. split[3]
+		)
+	end
+end
+
+vim.keymap.set("n", "<C-x>", toggle_boolean, { noremap = true, silent = true })
+vim.keymap.set("i", "<C-f>", create_func, { noremap = true, silent = true })
 
 -- Basic keymaps
 vim.keymap.set("n", "<leader>h", "<cmd>Telescope help_tags<cr>")
@@ -43,7 +96,7 @@ map_key("n", "<localleader>t", function()
 	local current_time = vim.fn.system('date "+Time Now: %H:%M"')
 	vim.notify(current_time)
 end, "Current Date Time")
-
+map_key("n", "<localleader>s", display_current_track, "Spotify now playing")
 -- ===============================
 -- CUSTOM REGISTER COPY/PASTE PREFIX KEYS
 -- ===============================
