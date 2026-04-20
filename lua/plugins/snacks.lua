@@ -67,7 +67,10 @@ return {
 	opts = {
 		bigfile = { enabled = true },
 		debug = { enabled = false },
-		notifier = { enabled = true },
+		notifier = {
+			enabled = true,
+			margin = { top = 0, right = 40, bottom = 0 },
+		},
 		quickfile = { enabled = true },
 		statuscolumn = { enabled = true },
 		styles = {

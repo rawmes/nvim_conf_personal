@@ -3,6 +3,17 @@ return {
 	dependencies = {
 		"rafamadriz/friendly-snippets",
 		"xzbdmw/colorful-menu.nvim",
+		-- {
+		-- 	"Exafunction/windsurf.nvim",
+		-- 	dependencies = {
+		-- 		"nvim-lua/plenary.nvim",
+		-- 	},
+		-- 	config = function()
+		-- 		require("codeium").setup({
+		-- 			enable_cmp_source = false,
+		-- 		})
+		-- 	end,
+		-- },
 	},
 	version = "*",
 
@@ -73,6 +84,14 @@ return {
 				"snippets",
 				"buffer",
 				"cmdline",
+				-- 	"codeium",
+				-- },
+				-- providers = {
+				-- 	codeium = {
+				-- 		name = "Codeium",
+				-- 		module = "codeium.blink",
+				-- 		async = true,
+				-- 	},
 			},
 		},
 		completion = {
