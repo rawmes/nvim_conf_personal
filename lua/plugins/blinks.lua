@@ -83,7 +83,6 @@ return {
 				"path",
 				"snippets",
 				"buffer",
-				"cmdline",
 				-- 	"codeium",
 				-- },
 				-- providers = {

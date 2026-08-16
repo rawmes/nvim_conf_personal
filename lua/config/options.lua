@@ -11,17 +11,20 @@ o.colorcolumn = "80"
 o.number = true
 o.numberwidth = 1
 o.expandtab = false
-o.cursorcolumn = true
 o.cursorline = true
 o.listchars = { tab = ">-" }
--- In case you don't want to use `:LazyExtras`,
--- then you need to set the option below.
 vim.diagnostic.config({
-	virtual_lines = function(namespace, bufnr)
-		return {
-			only_current_line = false,
-			severity = vim.diagnostic.severity.ERROR,
-		}
-	end,
-	signs = false,
+	update_in_insert = false,
+	virtual_lines = false,
+	virtual_text = {
+		spacing = 2,
+		source = false,
+		severity = { min = vim.diagnostic.severity.ERROR },
+	},
+	float = {
+		source = false,
+		severity = { min = vim.diagnostic.severity.ERROR },
+	},
+	signs = true,
+	underline = true,
 })

@@ -74,7 +74,6 @@ return {
 					"clangd",
 					"--background-index",
 					"--clang-tidy",
-					"--log=verbose",
 				},
 				filetypes = { "c", "cpp", "objc", "objcpp" },
 				root_markers = {
@@ -123,7 +122,11 @@ return {
 				vim.keymap.set("n", "gs", vim.lsp.buf.signature_help, opts)
 				vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, opts)
 				vim.keymap.set({ "n", "x" }, "<F3>", function()
-					vim.lsp.buf.format({ async = true })
+					if vim.tbl_contains({ "gd", "gdscript", "gdscript3" }, vim.bo.filetype) then
+						require("conform").format({ async = true })
+					else
+						vim.lsp.buf.format({ async = true })
+					end
 				end, opts)
 				vim.keymap.set("n", "<F4>", vim.lsp.buf.code_action, opts)
 			end,
