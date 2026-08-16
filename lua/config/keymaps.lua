@@ -89,7 +89,6 @@ map_key(
 	true
 )
 map_key({ "n", "i", "v" }, "<C-.>", "<esc><cmd>bnext<cr>", "Next Buffer", true)
-map_key("n", "<F5>", "<cmd>UndotreeToggle<cr>", "undo tree")
 map_key("n", "<leader>pp", "<cmd>%!jq .<cr>", "json pretty print")
 map_key("n", "<leader>a", "ggVG", "Select entire file")
 map_key("n", "<localleader>t", function()
